@@ -1,3 +1,29 @@
+# website and local folders
+_site/
+.sass-cache/
+.jekyll-metadata
+_pdf
+.DS_Store
+vendor/
+.bundle/
+_build/
+
+# sublime project files
+*.sublime-project
+*.sublime-workspace
+**.sublime-project
+**.sublime-workspace
+*.sublime-project/
+*.sublime-workspace/
+*.sublime*
+*.sublime*/
+
+# PyCharm
+.idea/
+*.pyc
+*.log
+**/.idea
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
