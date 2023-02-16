@@ -1,0 +1,166 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    object      snappyHexMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Which of the steps to run
+castellatedMesh true;    // make basic mesh ?
+snap            true;    // decide to snap back to surface ?
+addLayers       false;   // decide to add viscous layers ?
+
+
+geometry // Load in STL files here
+{
+  Air.stl {type triSurfaceMesh; name Air;}
+  Concrete_sides.stl {type triSurfaceMesh; name Concrete_sides;}
+  Gravel_bottom.stl {type triSurfaceMesh; name Gravel_bottom;}
+  Inlet.stl {type triSurfaceMesh; name Inlet;}
+  Obstacle.stl {type triSurfaceMesh; name Obstacle;}
+  Outlet.stl {type triSurfaceMesh; name Outlet;}
+};
+
+castellatedMeshControls
+{
+    maxLocalCells 50000000;  //max cells per CPU core
+    maxGlobalCells 500000000; //max cells to use before mesh deletion step
+    minRefinementCells 0;  //was 0 - zero means no bad cells are allowed during refinement stages
+    // maxLoadUnbalance 0.10;
+    nCellsBetweenLevels 5;  // expansion factor between each high & low refinement zone
+
+    // Explicit feature edge refinement
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    features // taken from STL from each .eMesh file created by "SurfaceFeatureExtract" command
+    (
+      {file "Air.eMesh"; level 0;}
+      {file "Concrete_sides.eMesh"; level 0;}
+      {file "Gravel_bottom.eMesh"; level 0;}
+      {file "Inlet.eMesh"; level 0;}
+      {file "Obstacle.eMesh"; level 0;}
+      {file "Outlet.eMesh"; level 0;}
+
+    );
+
+    // Surface based refinement
+    // ~~~~~~~~~~~~~~~~~~~~~~~~
+
+    refinementSurfaces // Surface-wise min and max refinement level
+    {
+      Air {level (0 0);}
+      Concrete_sides {level (1 3);}
+      Gravel_bottom {level (2 3);}
+      Inlet {level (1 3);}
+      Obstacle {level (3 3);}
+      Outlet {level (2 3);}
+    }
+
+
+    resolveFeatureAngle 5;  // Resolve sharp angles // Default 30
+    refinementRegions        // In descending levels of fine-ness
+    {//volume {mode distance; levels ((0.001 4) (0.003 3) (0.01 2));}} // was ((0.001 4) (0.003 3) (0.01 2))
+    }
+    locationInMesh (43.359 5 2.5803);  //to decide which side of mesh to keep **
+    allowFreeStandingZoneFaces true;
+}
+
+
+// Settings for the snapping.
+snapControls
+{
+    nSmoothPatch    3;
+    // nSmoothInternal $nSmoothPatch;
+    tolerance       1.0;
+    nSolveIter      600;
+    nRelaxIter      5;
+
+    // Feature snapping
+
+        nFeatureSnapIter 10; // default is 10
+        implicitFeatureSnap false; // default is false - detects without doing surfaceFeatureExtract
+        explicitFeatureSnap true; // default is true
+        multiRegionFeatureSnap true; // deafault is false - detects features between multiple surfaces
+}
+
+
+// Settings for the layer addition.
+addLayersControls //add the PATCH names from inside the STL file so STLpatchName_insideSTLName
+ {
+    relativeSizes true; // was true
+    layers
+    {
+
+    }
+
+    expansionRatio 1.0;
+    finalLayerThickness 0.3; //was 0.00016
+    minThickness 0.25; //was 0.00008
+    nGrow 0; // was 1
+
+
+    // Advanced settings
+
+    featureAngle 150; // was 70 //- When not to extrude surface. 0 is flat, 90 is right angle.
+    nRelaxIter 3  //- Max# of snapping relaxation iter. Should stop before upon reaching a correct mesh.
+    nSmoothSurfaceNormals 50;  // Number of smoothing iterations of surface normals
+    nSmoothNormals 3; // Number of smoothing iterations of interior mesh movement direction
+    nSmoothThickness 10;  // Smooth layer thickness over surface patches
+    maxFaceThicknessRatio 0.5; // Stop layer growth on highly warped cells
+    maxThicknessToMedialRatio 0.3; // Reduce layer growth where ratio thickness to medial distance is large
+    minMedianAxisAngle 90;  // Angle used to pick up medial axis points
+    nBufferCellsNoExtrude 0;   // Create buffer region for new layer terminations
+    nLayerIter 50; // Overall max number of layer addition iterations
+    NnRelaxedIter 20;
+ }
+
+
+
+// Generic mesh quality settings. At any undoable phase these determine
+// where to undo.
+meshQualityControls
+{
+    maxNonOrtho 75;
+    maxBoundarySkewness 4;
+    maxInternalSkewness 4;
+    maxConcave 80;
+    minVol 1e-13;
+    minTetQuality 1e-15;
+    minArea -1;
+    minTwist 0.02;
+    minDeterminant 0.001;
+    minFaceWeight 0.05;
+    minVolRatio 0.01;
+    minTriangleTwist -1;
+
+    // Advanced
+
+    nSmoothScale 4;
+    errorReduction 0.75;
+}
+
+// Advanced
+
+debug 0;
+
+// Write flags
+// (
+// 	scalarLevels	// write volScalarField with cellLevel for postprocessing
+// 	layerSets	//write cellSets, faceSets of faces in layer
+// 	layerFields	//write volScalarField for layer coverage
+// );
+
+// Merge tolerance. Is fraction of overall bounding box of initial mesh.
+// Note: the write tolerance needs to be higher than this.
+mergeTolerance 1E-6;
+
+
+// ************************************************************************* //

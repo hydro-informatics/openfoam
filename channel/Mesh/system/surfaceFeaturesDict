@@ -1,0 +1,127 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  4.0                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  dev
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    object      surfaceFeaturesDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+//Air
+//Concrete_sides
+//Gravel_bottom
+//Inlet
+//Obstacle
+//Outlet
+
+Air
+{
+    surfaces
+    (
+        "Air.stl"
+    );
+
+    // Identify a feature when angle between faces < includedAngle
+    includedAngle   180;
+
+    // Write options
+
+    // Write features to obj format for postprocessing
+    writeObj                yes;
+}
+
+Concrete_sides
+{
+    surfaces
+    (
+        "Concrete_sides.stl"
+    );
+
+    // Identify a feature when angle between faces < includedAngle
+    includedAngle   180;
+
+    // Write options
+
+    // Write features to obj format for postprocessing
+    writeObj                yes;
+}
+
+Gravel_bottom
+{
+    surfaces
+    (
+        "Gravel_bottom.stl"
+    );
+
+    // Identify a feature when angle between faces < includedAngle
+    includedAngle   180;
+
+    // Write options
+
+    // Write features to obj format for postprocessing
+    writeObj                yes;
+}
+
+Inlet
+{
+    surfaces
+    (
+        "Inlet.stl"
+    );
+
+    // Identify a feature when angle between faces < includedAngle
+    includedAngle   180;
+
+    // Write options
+
+    // Write features to obj format for postprocessing
+    writeObj                yes;
+}
+
+Obstacle
+{
+    surfaces
+    (
+        "Obstacle.stl"
+    );
+
+    // Identify a feature when angle between faces < includedAngle
+    includedAngle   180;
+
+    // Write options
+
+    // Write features to obj format for postprocessing
+    writeObj                yes;
+}
+
+Outlet
+{
+    surfaces
+    (
+        "Outlet.stl"
+    );
+
+    // Identify a feature when angle between faces < includedAngle
+    includedAngle   180;
+
+    // Write options
+
+    // Write features to obj format for postprocessing
+    writeObj                yes;
+}
+
+
+// ************************************************************************* //
