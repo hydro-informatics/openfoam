@@ -61,7 +61,7 @@ These directories contain the data files for every field of the simulation.
 *<sub>Example of the zero time step directory contents.</sub>*
 
 
-###Documentation
+### Documentation
 
 The list below provides further sources where more information regarding OpenFOAM
 can be found, including tutorials and lecture notes.
@@ -676,7 +676,7 @@ the *polyMesh* folder.
 
  <br/>
 
-####1. The *Constant* Subdirectory
+#### 1. The *Constant* Subdirectory
 After having copied the *polyMesh* folder from the *snappyHexMesh* results,
 it is necessary to correctly define the type of the different composing elements
 in the **boundary** file,. For instance, in the example here below, the 
@@ -845,7 +845,7 @@ value           ( 0 0 -9.8065 );
 
 ***
 
-####2. The *System* Directory
+#### 2. The *System* Directory
 
 
 The *System Folder* contains the parameters associated
@@ -1011,7 +1011,7 @@ is a scalar that determines which cells with the center near to the surface to i
 A complete list of all available sources can be found in the [OpenFOAM Wiki](https://openfoamwiki.net/index.php/TopoSet)
 in the TopoSet section.
 
-####3. The *0* Directory
+#### 3. The *0* Directory
 The *0* directory is the time directory containing the files describing the 
 initial conditions of the simulation. Inside this directory one text file
 for each field that is required for the interFoam solver executable is stored.
@@ -1453,7 +1453,7 @@ corrections are present.
 20   ExecutionTime = 63.45 s  ClockTime = 64 s
 ```
 
-###Post-processing of the simulation results
+### Post-processing of the simulation results
 
 In the case in which the simulations were run in parallel, before post-processing the data,
 the first step consists in reconstructing all solution steps of the analyzed case.
