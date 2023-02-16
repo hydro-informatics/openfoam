@@ -563,6 +563,7 @@ mergeTolerance 1E-6;
 
 <br/>
 
+#### 5. Running the meshing process
 Once the necessary keywords have been defined in the required dictionaries, the final 
 step consists in **running the commands** in the terminal in the following order:
 
@@ -644,7 +645,7 @@ reconstruct the geometry.
 <br/>
 
 ***
-#### 5. Mesh visualization  
+#### 6. Mesh visualization  
 
 In order to visualize the generated mesh in ParaView, select the *Apply* option
 in the *Properties* section.
