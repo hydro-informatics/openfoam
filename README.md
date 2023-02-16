@@ -20,7 +20,7 @@ OpenFOAM has a wide range of functions, such as:
 - It performs parallel calculations allowing to take full advantage of today's multicore 
   processors and multiprocessor computers.
   
-###Basic directory structure
+### Basic directory structure
 
 The basic directory structure for a OpenFOAM case, that contains the minimum set of files required to run an application, is shown here below:
  
