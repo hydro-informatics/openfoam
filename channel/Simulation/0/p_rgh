@@ -1,0 +1,65 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  4.0                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p_rgh;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];//kg m s K mol A cd
+
+internalField   uniform 0;//initially atmospheric pressure in the entire domain
+
+boundaryField
+{
+//    This boundary condition sets the pressure gradient to the provided value
+//    such that the flux on the boundary is that specified by the velocity
+//    boundary condition. gradient() = 0.0;
+
+     Air
+        {
+        	type            totalPressure;
+        	p0              uniform 0;
+        }
+
+     Concrete_sides
+        {
+        	type            fixedFluxPressure;
+        	value           uniform 0; 
+        }
+
+     Gravel_bottom
+        {
+        	type            fixedFluxPressure;
+        	value           uniform 0;
+        }
+
+     Inlet
+        {
+        	type            fixedFluxPressure;
+        	value           uniform 0;
+	}
+
+     Obstacle
+        {
+        	type            fixedFluxPressure;
+        	value           uniform 0;
+        }
+
+     Outlet
+        {
+                type            fixedFluxPressure;
+        	value           uniform 0;
+        }
+
+}
+
+// ************************************************************************* //

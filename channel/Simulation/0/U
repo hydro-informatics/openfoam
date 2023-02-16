@@ -1,0 +1,60 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  4.0                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    location    "0";
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];//kg m s K mol A cd
+
+internalField   uniform (0 0 0);//Initially the velocity is (0 0 0) m/s
+
+boundaryField
+{
+     Air
+        {
+        	type            pressureInletOutletVelocity;
+         	value           uniform (0 0 0);
+        }
+
+     Concrete_sides
+        {
+        	type            noSlip; //no slip along the walls -replaces fixedValue with uniform (0 0 0)
+        }
+
+     Gravel_bottom
+        {
+        	type            noSlip;
+        }
+
+     Inlet
+        {
+        	type            flowRateInletVelocity;
+        	volumetricFlowRate constant 0.5;
+	}
+
+     Obstacle
+        {
+        	type            noSlip;
+        }
+
+     Outlet
+        {
+                type            inletOutlet;
+                inletValue      uniform (0 0 0);
+                value           $internalField;
+        }
+
+
+}
+// ************************************************************************* //
